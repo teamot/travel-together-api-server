@@ -1,0 +1,12 @@
+FROM node:8.17.0-jessie-slim
+
+WORKDIR /tt-api-server
+
+COPY ./package.json .
+COPY ./yarn.lock .
+
+RUN yarn
+
+COPY . .
+
+CMD ["yarn", "dev"]

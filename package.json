@@ -4,7 +4,10 @@
     "email": "kimjw34j1@gmail.com",
     "name": "Kim Jeongwoo"
   },
-  "scripts": {"dev": "nodemon"},
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon"
+  },
   "devDependencies": {
     "@types/node": "^12.12.21",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
