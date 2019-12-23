@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { JwtHelper } from './jwt';
 import { IJwtPayload } from './interfaces/jwt.interface';
+import { RefreshTokenGenerator } from './refresh-token';
 
 describe('Token 모듈 테스트', () => {
   describe('JwtHelper 테스트', () => {
@@ -71,6 +72,37 @@ describe('Token 모듈 테스트', () => {
 
         const result = jwtHelper.verify(presignedToken);
         expect(result).toEqual(payload);
+      });
+    });
+  });
+
+  describe('RefreshTokenGenerator 테스트', () => {
+    let refreshTokenGenerator: RefreshTokenGenerator;
+    async function createRefreshTokenGenerator() {
+      const module = await Test.createTestingModule({
+        providers: [RefreshTokenGenerator]
+      }).compile();
+
+      return module.get<RefreshTokenGenerator>(RefreshTokenGenerator);
+    }
+
+    beforeEach(async () => {
+      refreshTokenGenerator = await createRefreshTokenGenerator();
+    });
+
+    describe('generate', () => {
+      it('길이가 충분히 긴(32자 이상인) 문자열을 반환한다', () => {
+        const refreshToken = refreshTokenGenerator.generate();
+        expect(refreshToken.length).toBeGreaterThanOrEqual(32);
+      });
+
+      it('유니크한 문자열을 반환한다', () => {
+        const set = new Set<string>();
+        for (let i = 0; i < 100000; ++i) {
+          set.add(refreshTokenGenerator.generate());
+        }
+
+        expect(set.size).toBe(100000);
       });
     });
   });

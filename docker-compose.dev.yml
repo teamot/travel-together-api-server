@@ -9,7 +9,7 @@ services:
     depends_on: 
       - db
     volumes: 
-      - ./:/tt-api-server
+      - ./:/tt-api-server/
     ports: 
       - 3000:3000
     environment:
