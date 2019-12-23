@@ -9,7 +9,7 @@ import {
 
 @Entity('Account')
 export class Account extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
