@@ -6,7 +6,7 @@ import { RefreshTokenGenerator } from './refresh-token';
 describe('Token 모듈 테스트', () => {
   describe('JwtHelper 테스트', () => {
     let jwtHelper: JwtHelper;
-    let isFirstTestcase = true;
+    const jwtSecretBackup = process.env.JWT_SECRET;
 
     async function createJwtHelper() {
       const module = await Test.createTestingModule({
@@ -16,26 +16,29 @@ describe('Token 모듈 테스트', () => {
       return module.get<JwtHelper>(JwtHelper);
     }
 
-    beforeEach(async () => {
-      if (isFirstTestcase) {
-        isFirstTestcase = false;
-        return;
-      }
+    beforeAll(() => {
+      process.env.JWT_SECRET = 'secret';
+    });
 
-      process.env.JWT_SECRET = '12345';
+    afterAll(() => {
+      process.env.JWT_SECRET = jwtSecretBackup;
+    });
+
+    beforeEach(async () => {
       jwtHelper = await createJwtHelper();
     });
 
     describe('생성자 호출', () => {
       it('환경변수 JWT_SECRET이 정의되어 있지 않으면 예외를 던진다', async () => {
+        const backup = process.env.JWT_SECRET;
+        delete process.env.JWT_SECRET;
         await expect(createJwtHelper()).rejects.toThrowError();
+        process.env.JWT_SECRET = backup;
       });
 
       it('환경변수 JWT_SECRET이 정의되어 있으면 객체를 반환한다.', async () => {
-        process.env.JWT_SECRET = 'secret';
         const obj = await createJwtHelper();
         expect(obj instanceof JwtHelper).toBeTruthy();
-        delete process.env.JWT_SECRET;
       });
     });
 
@@ -68,7 +71,7 @@ describe('Token 모듈 테스트', () => {
 
         // https://jwt.io/ 에서 생성한 토큰
         const presignedToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI1MjMwMTQ4MjMsInN1YiI6MH0.aLpHW2EHwM6zYToEHSRpRYrEl7YVi6DWh7Syppa-zfY';
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI1MjMwMTQ4MjMsInN1YiI6MH0.nFpJvu3zpNWFT0qiyOVeA3Na71hOIuTWqIP09j1rVAw';
 
         const result = jwtHelper.verify(presignedToken);
         expect(result).toEqual(payload);

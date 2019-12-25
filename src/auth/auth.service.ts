@@ -3,8 +3,7 @@ import { ITokenData } from './interfaces/auth.interface';
 import { OAuthLoginOptions } from './auth.dto';
 import { KakaoApi } from '../utils/oauth/kakao-api';
 import { Account } from '../account/entities/account.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { RefreshTokenGenerator } from '../utils/token/refresh-token';
 import { JwtHelper } from '../utils/token/jwt';
 
@@ -16,7 +15,7 @@ export class AuthService {
     private readonly kakaoApi: KakaoApi,
     private readonly refreshTokenGenerator: RefreshTokenGenerator,
     private readonly jwtHelper: JwtHelper,
-    @InjectRepository(Account) private readonly accountRepo: Repository<Account>
+    private readonly connection: Connection
   ) {}
 
   public async getTokensByOAuth(
@@ -29,9 +28,11 @@ export class AuthService {
       throw new UnauthorizedException('로그인 정보가 올바르지 않습니다.');
     }
 
-    let account = await this.accountRepo.findOne({ where: { oauthId } });
+    let account = await this.connection
+      .getRepository(Account)
+      .findOne({ where: { oauthId } });
     if (!account) {
-      const newAccount = this.accountRepo.create();
+      const newAccount = this.connection.getRepository(Account).create();
       newAccount.name = user.kakao_account.profile.nickname;
       newAccount.oauthId = user.id + '';
       newAccount.profileImageUrl = user.kakao_account.profile.profile_image_url;

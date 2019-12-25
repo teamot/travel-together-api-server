@@ -1,25 +1,37 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { Account } from './entities/account.entity';
+import { TravelRoom } from '../travel-room/entities/travel-room.entity';
 
 @Injectable()
 export class AccountService {
-  constructor(
-    @InjectRepository(Account) private readonly accountRepo: Repository<Account>
-  ) {}
+  constructor(private readonly connection: Connection) {}
 
-  public async getProfile(accountId: string): Promise<Partial<Account>> {
-    const account = await this.accountRepo.findOne(accountId);
+  public async getProfile(accountId: string): Promise<Account> {
+    const account = await this.connection
+      .getRepository(Account)
+      .findOne(accountId);
     if (!account) {
       throw new NotFoundException('요청한 계정 정보가 존재하지 않습니다.');
     }
 
-    return {
-      id: account.id,
-      name: account.name,
-      profileImageUrl: account.profileImageUrl,
-      statusMessage: account.statusMessage
-    };
+    return account;
+  }
+
+  public async getTravelRooms(accountId: string): Promise<TravelRoom[]> {
+    const travelRoomIds = (
+      await this.connection.getRepository(Account).findOne({
+        where: { id: accountId },
+        relations: ['joinedTravelRooms']
+      })
+    )?.joinedTravelRooms.map(travelRoom => travelRoom.id);
+
+    if (!travelRoomIds) {
+      return [];
+    }
+
+    return this.connection.getRepository(TravelRoom).findByIds(travelRoomIds, {
+      relations: ['members', 'countries']
+    });
   }
 }

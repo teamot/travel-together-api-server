@@ -4,10 +4,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Index,
-  CreateDateColumn
+  CreateDateColumn,
+  ManyToMany
 } from 'typeorm';
+import { TravelRoom } from '../../travel-room/entities/travel-room.entity';
 
-@Entity('Account')
+@Entity()
 export class Account extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -30,4 +32,10 @@ export class Account extends BaseEntity {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToMany(
+    _type => TravelRoom,
+    travelRoom => travelRoom.members
+  )
+  joinedTravelRooms: TravelRoom[];
 }
