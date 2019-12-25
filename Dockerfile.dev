@@ -1,4 +1,4 @@
-FROM node:8.17.0-jessie-slim
+FROM node:10.18.0-jessie-slim
 
 WORKDIR /tt-api-server
 
