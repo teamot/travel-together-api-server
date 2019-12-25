@@ -26,7 +26,7 @@ export class TravelRoom extends BaseEntity {
   endDate: Date;
 
   @Column({ nullable: true })
-  coverImageUrl: string;
+  coverImagePath: string;
 
   @ManyToMany(
     _type => Account,

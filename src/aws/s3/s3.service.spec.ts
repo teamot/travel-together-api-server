@@ -41,19 +41,9 @@ describe('S3 Service', () => {
 
   describe('objectPathResolver', () => {
     describe('getTravelRoomCoverImageUrl', () => {
-      it('반환 값의 bucketName 속성은 s3Service의 bucketName과 같아야한다', () => {
-        const {
-          bucketName
-        } = s3Service.objectPathResolver.getTravelRoomCoverImagePath('dummy');
-
-        expect(bucketName).toBe(s3Service.config.bucketName);
-      });
-
-      it('반환 값의 path 속성은 파라미터로 전달한 travelRoomId 값과 디폴트 확장자인 jpeg를 포함해야한다', () => {
+      it('반환 값은 파라미터로 전달한 travelRoomId 값과 디폴트 확장자인 jpeg를 포함해야한다', () => {
         const travelRoomId = 'd183hrv091hv019hv092hrv0129';
-        const {
-          path
-        } = s3Service.objectPathResolver.getTravelRoomCoverImagePath(
+        const path = s3Service.objectPathResolver.getTravelRoomCoverImagePath(
           travelRoomId
         );
 
@@ -62,9 +52,7 @@ describe('S3 Service', () => {
 
       it('확장자를 명시할 경우 반환 값의 path 속성은 해당 확장자를 포함한다', () => {
         const travelRoomId = 'd183hrv091hv019hv092hrv0129';
-        const {
-          path
-        } = s3Service.objectPathResolver.getTravelRoomCoverImagePath(
+        const path = s3Service.objectPathResolver.getTravelRoomCoverImagePath(
           travelRoomId,
           'tiff'
         );

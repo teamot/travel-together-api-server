@@ -1,5 +1,12 @@
-import { MaxLength, IsEnum, IsOptional, IsDateString } from 'class-validator';
-import { CountryCode } from '../../country/interfaces/country.interfaces';
+import {
+  MaxLength,
+  IsEnum,
+  IsOptional,
+  IsDateString,
+  IsUUID
+  // IsUUID
+} from 'class-validator';
+import { CountryCode } from '../country/interfaces/country.interfaces';
 
 export class CreateTravelRoomDto {
   @MaxLength(32, {
@@ -25,4 +32,9 @@ export class CreateTravelRoomDto {
   countries?: CountryCode[];
 
   accountId: string;
+}
+
+export class GetTravelRoomCoverImageUploadUrlDto {
+  @IsUUID('4')
+  travelRoomId: string;
 }

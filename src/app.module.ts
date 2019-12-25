@@ -4,7 +4,6 @@ import { HealthCheckModule } from './health-check/health-check.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { TravelRoomModule } from './travel-room/travel-room.module';
-import { AWSModule } from './aws/aws.module';
 
 @Module({
   imports: [
@@ -12,8 +11,7 @@ import { AWSModule } from './aws/aws.module';
     AccountModule,
     HealthCheckModule,
     AuthModule,
-    TravelRoomModule,
-    AWSModule
+    TravelRoomModule
   ],
   providers: []
 })
