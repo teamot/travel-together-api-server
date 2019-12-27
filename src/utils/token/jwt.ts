@@ -36,7 +36,7 @@ export class JwtHelper {
     }
   }
 
-  public generateExp(expIn: number = 900) {
+  public generateExp(expIn: number = 604800 /* 일주일 (테스트용) */) {
     return Math.floor(Date.now() / 1000) + expIn;
   }
 }
