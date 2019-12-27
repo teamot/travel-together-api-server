@@ -37,6 +37,6 @@ export class JwtHelper {
   }
 
   public generateExp(expIn: number = 900) {
-    return Math.floor(Date.now()) + expIn;
+    return Math.floor(Date.now() / 1000) + expIn;
   }
 }
