@@ -5,6 +5,7 @@ import { S3Service } from './s3.service';
 describe('S3 Service', () => {
   let s3Service: S3Service;
   beforeEach(async () => {
+    console.log(process.env.AWS_ACCESSKEY_ID);
     const module = await Test.createTestingModule({
       providers: [S3Service]
     }).compile();
@@ -15,6 +16,22 @@ describe('S3 Service', () => {
   describe('Dependency Injection', () => {
     it('s3Service는 undefined가 아니어야한다', () => {
       expect(s3Service).not.toBeUndefined();
+    });
+  });
+
+  describe('constructor', () => {
+    it('환경변수 AWS_ACCESS_KEY_ID가 정의되어있지 않으면 예외를 던진다', () => {
+      const backup = process.env.AWS_ACCESS_KEY_ID;
+      delete process.env.AWS_ACCESS_KEY_ID;
+      expect(() => new S3Service()).toThrow();
+      process.env.AWS_ACCESS_KEY_ID = backup;
+    });
+
+    it('환경변수 AWS_SECRET_ACCESS_KEY가 정의되어있지 않으면 예외를 던진다', () => {
+      const backup = process.env.AWS_SECRET_ACCESS_KEY;
+      delete process.env.AWS_SECRET_ACCESS_KEY;
+      expect(() => new S3Service()).toThrowError();
+      process.env.AWS_SECRET_ACCESS_KEY = backup;
     });
   });
 

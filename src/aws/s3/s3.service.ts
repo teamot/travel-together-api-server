@@ -19,10 +19,9 @@ export class S3Service {
   constructor() {
     const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env;
     if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-      console.log(
-        `환경변수 AWS_ACCESS_KEY_ID 또는 AWS_SECRET_ACCESS_KEY가 정의되어있지 않습니다.`
+      throw new Error(
+        'Environmental variable AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY is undefined'
       );
-      process.exit(-1);
     }
 
     this.s3 = new S3(this.config);
