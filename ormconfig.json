@@ -7,18 +7,12 @@
   "database": "travel-together",
   "synchronize": true,
   "logging": true,
-  "entities": [
-   "dist/**/*.entity.js"
-  ],
-  "migrations": [
-     "src/database/migration/**/*.ts"
-  ],
-  "subscribers": [
-     "src/database/subscriber/**/*.ts"
-  ],
+  "entities": ["dist/**/*.entity.js"],
+  "migrations": ["src/dist/migration/**/*.ts"],
+  "subscribers": ["src/dist/subscriber/**/*.js"],
   "cli": {
     "entitiesDir": "src/database/models",
     "migrationsDir": "src/database/migration",
     "subscribersDir": "src/database/subscriber"
- }
+  }
 }

@@ -20,5 +20,6 @@
 
     "experimentalDecorators": true,    
     "emitDecoratorMetadata": true,     
-  }
+  },
+  "exclude": ["./src/database/migration"]
 }
