@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class S3Service {
-  public readonly objectPathResolver: ObjectPathResolver;
+  readonly objectPathResolver: ObjectPathResolver;
 
   private s3: S3;
   private config: S3Config = {
@@ -42,7 +42,7 @@ export class S3Service {
 }
 
 export class ObjectPathResolver {
-  constructor(public readonly bucketName: string) {}
+  constructor(readonly bucketName: string) {}
 
   getTravelRoomCoverImagePath(
     travelRoomId: string,

@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 
 @Injectable()
 export class RefreshTokenGenerator {
-  public generate(): string {
+  generate(): string {
     return uuidv4()
       .split('-')
       .join('');

@@ -21,14 +21,14 @@ export class JwtHelper {
     }
   }
 
-  public async encode(payload: IJwtPayload): Promise<IJwtEncodeReturn> {
+  async encode(payload: IJwtPayload): Promise<IJwtEncodeReturn> {
     const token = await this.signPromise(payload, this.jwtSecret, {
       noTimestamp: true
     });
     return { token, payload };
   }
 
-  public verify(token: string): IJwtPayload | undefined {
+  verify(token: string): IJwtPayload | undefined {
     try {
       return verify(token, this.jwtSecret) as IJwtPayload;
     } catch (error) {
@@ -36,7 +36,7 @@ export class JwtHelper {
     }
   }
 
-  public generateExp(expIn: number = 604800 /* 일주일 (테스트용) */) {
+  generateExp(expIn: number = 604800 /* 일주일 (테스트용) */) {
     return Math.floor(Date.now() / 1000) + expIn;
   }
 }

@@ -1,15 +1,16 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ITokenData } from './interfaces/auth.interface';
+import { ITokenData, IEncodableAccount } from './interfaces/auth.interface';
 import { OAuthLoginOptions } from './auth.dto';
 import { KakaoApi } from '../utils/oauth/kakao-api';
 import { Account } from '../account/entities/account.entity';
 import { Connection } from 'typeorm';
 import { RefreshTokenGenerator } from '../utils/token/refresh-token';
 import { JwtHelper } from '../utils/token/jwt';
+import { IJwtEncodeReturn } from '../utils/token/interfaces/jwt.interface';
 
 @Injectable()
 export class AuthService {
-  public readonly expIn: number = 15 * 60; // in seconds
+  readonly expIn: number = 15 * 60; // in seconds
 
   constructor(
     private readonly kakaoApi: KakaoApi,
@@ -18,7 +19,7 @@ export class AuthService {
     private readonly connection: Connection
   ) {}
 
-  public async getTokensByOAuth(
+  async getTokensByOAuth(
     oauthLoginOptions: OAuthLoginOptions
   ): Promise<ITokenData> {
     const { oauthId, oauthToken } = oauthLoginOptions;
@@ -40,11 +41,28 @@ export class AuthService {
       account = await newAccount.save();
     }
 
-    const encoded = await this.jwtHelper.encode({
+    const encoded = await this.issueJwt(account);
+
+    return { ...encoded, refreshToken: account.refreshToken };
+  }
+
+  async refreshToken(refreshToken: string): Promise<ITokenData> {
+    const account = await this.connection
+      .getRepository(Account)
+      .findOne({ where: { refreshToken } });
+
+    if (!account) {
+      throw new UnauthorizedException('갱신 토큰이 유효하지 않습니다.');
+    }
+
+    const encoded = await this.issueJwt(account);
+    return { ...encoded, refreshToken: account.refreshToken };
+  }
+
+  private issueJwt(account: IEncodableAccount): Promise<IJwtEncodeReturn> {
+    return this.jwtHelper.encode({
       exp: this.jwtHelper.generateExp(this.expIn),
       sub: account.id
     });
-
-    return { ...encoded, refreshToken: account.refreshToken };
   }
 }

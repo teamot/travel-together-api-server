@@ -15,7 +15,7 @@ export class MeController {
   constructor(private readonly accountService: AccountService) {}
 
   @Get('profile')
-  public async getProfile(
+  async getProfile(
     @Body('accountId') accountId: string
   ): Promise<GetMeResponse> {
     const account = await this.accountService.getProfile(accountId);
@@ -30,7 +30,7 @@ export class MeController {
   }
 
   @Get('travel-rooms')
-  public async getTravelRooms(@Body('accountId') accountId: string) {
+  async getTravelRooms(@Body('accountId') accountId: string) {
     const travelRooms = await this.accountService.getTravelRooms(accountId);
     return travelRooms;
   }

@@ -7,7 +7,7 @@ import { TravelRoom } from '../travel-room/entities/travel-room.entity';
 export class AccountService {
   constructor(private readonly connection: Connection) {}
 
-  public async getProfile(accountId: string): Promise<Account> {
+  async getProfile(accountId: string): Promise<Account> {
     const account = await this.connection
       .getRepository(Account)
       .findOne(accountId);
@@ -18,7 +18,7 @@ export class AccountService {
     return account;
   }
 
-  public async getTravelRooms(accountId: string): Promise<TravelRoom[]> {
+  async getTravelRooms(accountId: string): Promise<TravelRoom[]> {
     const travelRoomIds = (
       await this.connection.getRepository(Account).findOne({
         where: { id: accountId },

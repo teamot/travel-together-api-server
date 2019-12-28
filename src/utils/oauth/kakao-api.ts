@@ -12,9 +12,7 @@ export class KakaoApi {
   private readonly version = 'v2';
   private readonly prefix = `${this.host}/${this.version}`;
 
-  public async getTokenInfo(
-    oauthToken: string
-  ): Promise<KakaoTokenInfo | undefined> {
+  async getTokenInfo(oauthToken: string): Promise<KakaoTokenInfo | undefined> {
     const uri = `${this.prefix}/user/access_token_info`;
     const method = 'GET';
     const headers = {
@@ -36,7 +34,7 @@ export class KakaoApi {
     }
   }
 
-  public async getUser(
+  async getUser(
     kakaoUserId: string | number,
     kakaoToken: string
   ): Promise<KakaoUser | undefined> {

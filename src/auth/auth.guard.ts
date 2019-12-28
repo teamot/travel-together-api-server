@@ -6,7 +6,7 @@ import { JwtHelper } from '../utils/token/jwt';
 export class AuthGuard implements CanActivate {
   constructor(private readonly jwtHelper: JwtHelper) {}
 
-  public async canActivate(context: ExecutionContext): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.getBearerToken(request);
     if (!token) {
