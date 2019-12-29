@@ -11,9 +11,6 @@
 
 ### health-check
 
-<details>
-<summary>GET /ping</summary>
-
 #### 엔트포인트
 
 ```http
@@ -30,12 +27,7 @@ GET /ping
 pong
 ```
 
-</details>
-
 ### auth
-
-<details>
-<summary>POST /auth/oauth/login</summary>
 
 #### 엔트포인트
 
@@ -83,11 +75,6 @@ OAuth2 서비스(카카오로 로그인)를 제공하는 리소스 서버를 통
 }
 ```
 
-</details>
-
-<details>
-<summary>GET /auth/refresh</summary>
-
 #### 엔트포인트
 
 ```http
@@ -117,12 +104,7 @@ GET /auth/refresh
 }
 ```
 
-</details>
-
 ### accounts
-
-<details>
-<summary>GET /me/profile</summary>
 
 #### 엔트포인트
 
@@ -161,11 +143,6 @@ GET /me/profile
   "statusMessage": null
 }
 ```
-
-</details>
-
-<details>
-<summary>GET /me/travel-rooms</summary>
 
 #### 엔트포인트
 
@@ -259,12 +236,7 @@ GET /me/travel-rooms
 ]
 ```
 
-</details>
-
 ### travel-rooms
-
-<details>
-<summary>POST /travel-rooms</summary>
 
 #### 엔트포인트
 
@@ -315,10 +287,6 @@ POST /travel-rooms
   "createdDate": "2019-12-29T05:40:59.799Z"
 }
 ```
-</details>
-
-<details>
-<summary>GET /travel-rooms/cover-image/upload-url</summary>
 
 #### 엔트포인트
 
@@ -359,7 +327,6 @@ GET /travel-rooms/cover-image/upload-url
     "signedUrl": "https://travel-together2.s3.amazonaws.com/travel-room/cover-image/86ec949a-c1fb-4090-9ec9-c89853c7cf33.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5KWQOYF7SUMU33GN%2F20191229%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20191229T055140Z&X-Amz-Expires=300&X-Amz-Signature=6cb1b6d24809792d2e4783e3479072ca5f3978c50053ef00b05a2157421f55cb&X-Amz-SignedHeaders=host"
 }
 ```
-</details>
 
 ## 부록
 
