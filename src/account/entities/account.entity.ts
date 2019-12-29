@@ -20,11 +20,11 @@ export class Account extends BaseEntity {
   @Column({ nullable: true })
   statusMessage?: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, select: false })
   refreshToken: string;
 
   @Index()
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   oauthId: string;
 
   @Column({ nullable: true })
