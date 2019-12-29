@@ -31,7 +31,7 @@ export class AuthService {
 
     let account = await this.connection.getRepository(Account).findOne({
       where: { oauthId },
-      select: ['refreshToken']
+      select: ['id', 'refreshToken']
     });
     if (!account) {
       const newAccount = this.connection.getRepository(Account).create();
@@ -51,7 +51,7 @@ export class AuthService {
   async refreshToken(refreshToken: string): Promise<ITokenData> {
     const account = await this.connection
       .getRepository(Account)
-      .findOne({ where: { refreshToken }, select: ['refreshToken'] });
+      .findOne({ where: { refreshToken }, select: ['id', 'refreshToken'] });
 
     if (!account) {
       throw new UnauthorizedException('갱신 토큰이 유효하지 않습니다.');
