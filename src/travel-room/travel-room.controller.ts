@@ -6,7 +6,7 @@ import {
 } from './travel-room.dto';
 import { TravelRoom } from './entities/travel-room.entity';
 import { TravelRoomService } from './travel-room.service';
-import { GetSignedUrlResponse } from './interfaces/travel-room.interface';
+import { GetSignedUrlResponse } from '../common/response.interface';
 
 @Controller('travel-rooms')
 export class TravelRoomController {
@@ -25,6 +25,8 @@ export class TravelRoomController {
   async getCoverImageUploadUrl(
     @Query() dto: GetTravelRoomCoverImageUploadUrlDto
   ): Promise<GetSignedUrlResponse> {
-    return this.travelRoomService.getCoverImageUploadUrl(dto);
+    return {
+      signedUrl: await this.travelRoomService.getCoverImageUploadUrl(dto)
+    };
   }
 }

@@ -1,6 +1,7 @@
 import { S3 } from 'aws-sdk';
 import { S3Config } from './interfaces/s3.interface';
 import { Injectable } from '@nestjs/common';
+import { ImageFormat } from '../../common/format';
 
 @Injectable()
 export class S3Service {
@@ -46,8 +47,15 @@ export class ObjectPathResolver {
 
   getTravelRoomCoverImagePath(
     travelRoomId: string,
-    format: string = 'jpeg'
+    format: string = ImageFormat.JPEG
   ): string {
     return `travel-room/cover-image/${travelRoomId}.${format}`;
+  }
+
+  getProfileImagePath(
+    accountId: string,
+    format: string = ImageFormat.JPEG
+  ): string {
+    return `account/profile-image/${accountId}.${format}`;
   }
 }

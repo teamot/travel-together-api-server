@@ -37,7 +37,8 @@ export class AuthService {
       const newAccount = this.connection.getRepository(Account).create();
       newAccount.name = user.kakao_account.profile.nickname;
       newAccount.oauthId = user.id + '';
-      newAccount.profileImageUrl = user.kakao_account.profile.profile_image_url;
+      newAccount.profileImagePath =
+        user.kakao_account.profile.profile_image_url;
       newAccount.refreshToken = this.refreshTokenGenerator.generate();
       account = await newAccount.save();
     }

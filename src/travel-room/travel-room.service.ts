@@ -6,7 +6,7 @@ import {
 } from './travel-room.dto';
 import { TravelRoom } from './entities/travel-room.entity';
 import { S3Service } from '../aws/s3/s3.service';
-import { GetSignedUrlResponse } from './interfaces/travel-room.interface';
+import { Account } from '../account/entities/account.entity';
 
 @Injectable()
 export class TravelRoomService {
@@ -16,6 +16,13 @@ export class TravelRoomService {
   ) {}
 
   async createTravelRoom(dto: CreateTravelRoomDto): Promise<TravelRoom> {
+    const account = await this.connection
+      .getRepository(Account)
+      .findOne(dto.accountId);
+    if (!account) {
+      throw new NotFoundException('유저 정보를 찾을 수 없습니다.');
+    }
+
     const travelRoom = await this.connection
       .getRepository(TravelRoom)
       .create({
@@ -25,7 +32,8 @@ export class TravelRoomService {
       })
       .save();
 
-    const promises = [];
+    travelRoom.members = [account];
+    const promises: Promise<any>[] = [travelRoom.save()];
     if (dto.countries) {
       promises.push(
         this.connection
@@ -36,14 +44,6 @@ export class TravelRoomService {
       );
     }
 
-    promises.push(
-      this.connection
-        .createQueryBuilder()
-        .relation(TravelRoom, 'members')
-        .of(travelRoom)
-        .add(dto.accountId)
-    );
-
     await Promise.all(promises);
 
     return travelRoom;
@@ -52,7 +52,7 @@ export class TravelRoomService {
   async getCoverImageUploadUrl({
     travelRoomId,
     format
-  }: GetTravelRoomCoverImageUploadUrlDto): Promise<GetSignedUrlResponse> {
+  }: GetTravelRoomCoverImageUploadUrlDto): Promise<string> {
     const path = this.s3Service.objectPathResolver.getTravelRoomCoverImagePath(
       travelRoomId,
       format
@@ -71,6 +71,6 @@ export class TravelRoomService {
       );
     }
 
-    return { signedUrl };
+    return signedUrl;
   }
 }

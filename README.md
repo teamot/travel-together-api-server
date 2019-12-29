@@ -128,7 +128,7 @@ GET /me/profile
 | --------------- | ------- | ------------------------------------------------------------------------------------ | --------- | --------- |
 | id              | string  | 가치여행 API서버에서 생성한 사용자의 고유 아이디                                     |           | 필수      |
 | name            | string  | 사용자의 닉네임. OAuth로 로그인한 경우 리소스서버에 설정된 값이 디폴트임.            |           | 필수      |
-| profileImageUrl | string? | 사용자의 프로필 사진의 url. OAuth로 로그인한 경우 리소스서버에 설정된 값이 디폴트임. |           | 선택      |
+| profileImagePath | string? | 사용자의 프로필 사진의 url. OAuth로 로그인한 경우 리소스서버에 설정된 값이 디폴트임. |           | 선택      |
 | createdAt       | date    | 계정 생성 일시. OAuth로 로그인한 경우 최초로 로그인한 일시임.                        |           | 필수      |
 | statusMessage   | string? | 상태 메시지. 설정하지 않은 경우 null.                                                |           | 선택      |
 
@@ -138,7 +138,7 @@ GET /me/profile
 {
   "id": "b73eba4e-d374-4024-a99b-04f6f7d07329",
   "name": "김예지",
-  "profileImageUrl": "http://k.kakaocdn.net/dn/cTh9DU/btqAq8c1skY/qTs4K8Ujh9oUffurqrTGPK/img_640x640.jpg",
+  "profileImagePath": "http://k.kakaocdn.net/dn/cTh9DU/btqAq8c1skY/qTs4K8Ujh9oUffurqrTGPK/img_640x640.jpg",
   "createdAt": "2019-12-23T15:57:29.344Z",
   "statusMessage": null
 }
@@ -173,7 +173,7 @@ GET /me/travel-rooms
 | members[i].id              | string  | 가치여행 API서버에서 생성한 각 멤버의 고유 아이디.   |           | 필수      |
 | members[i].name            | string  | 각 멤버의 닉네임.                                    |           | 필수      |
 | members[i].statusMessage   | string? | 각 멤버의 상태 메시지.                               |           | 선택      |
-| members[i].profileImageUrl | string? | 각 멤버의 프로필 이미지 url.                         |           | 선택      |
+| members[i].profileImagePath | string? | 각 멤버의 프로필 이미지 url.                         |           | 선택      |
 | members[i].createdAt       | date    | 각 멤버의 계정 생성 일시.                            |           | 필수      |
 | countries[i].code          | string  | 각 국가의 코드. 부록의 [국가 코드](#국가-코드) 참고. |           | 필수      |
 | countries[i].nameInKorean  | string  | 각 국가의 한국 이름. (예: 대한민국)                  |           | 필수      |
@@ -196,7 +196,7 @@ GET /me/travel-rooms
         "id": "b73eba4e-d374-4024-a99b-04f6f7d07329",
         "name": "김예지",
         "statusMessage": null,
-        "profileImageUrl": "http://k.kakaocdn.net/dn/cTh9DU/btqAq8c1skY/qTs4K8Ujh9oUffurqrTGPK/img_640x640.jpg",
+        "profileImagePath": "http://k.kakaocdn.net/dn/cTh9DU/btqAq8c1skY/qTs4K8Ujh9oUffurqrTGPK/img_640x640.jpg",
         "createdAt": "2019-12-23T15:57:29.344Z"
       }
     ],
@@ -227,7 +227,7 @@ GET /me/travel-rooms
         "id": "b73eba4e-d374-4024-a99b-04f6f7d07329",
         "name": "김예지",
         "statusMessage": null,
-        "profileImageUrl": "http://k.kakaocdn.net/dn/cTh9DU/btqAq8c1skY/qTs4K8Ujh9oUffurqrTGPK/img_640x640.jpg",
+        "profileImagePath": "http://k.kakaocdn.net/dn/cTh9DU/btqAq8c1skY/qTs4K8Ujh9oUffurqrTGPK/img_640x640.jpg",
         "createdAt": "2019-12-23T15:57:29.344Z"
       }
     ],

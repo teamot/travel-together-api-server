@@ -28,7 +28,7 @@ export class Account extends BaseEntity {
   oauthId: string;
 
   @Column({ nullable: true })
-  profileImageUrl?: string;
+  profileImagePath?: string;
 
   @CreateDateColumn()
   createdAt: Date;
