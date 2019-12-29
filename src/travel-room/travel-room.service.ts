@@ -50,10 +50,12 @@ export class TravelRoomService {
   }
 
   async getCoverImageUploadUrl({
-    travelRoomId
+    travelRoomId,
+    format
   }: GetTravelRoomCoverImageUploadUrlDto): Promise<GetSignedUrlResponse> {
     const path = this.s3Service.objectPathResolver.getTravelRoomCoverImagePath(
-      travelRoomId
+      travelRoomId,
+      format
     );
 
     const [updateResult, signedUrl] = await Promise.all([

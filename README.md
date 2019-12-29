@@ -309,22 +309,22 @@ GET /travel-rooms/cover-image/upload-url
 
 #### 쿼리 파라미터
 
-|파라미터 | 값| 설명 |
-| ---- | ---- | --- |
-| travelRoomId | 커버 이미지를 변경할 여행방의 고유 아이디 |  |
+| 파라미터     | 값                                        | 설명                                                         | 필수 여부 |
+| ------------ | ----------------------------------------- | ------------------------------------------------------------ | --------- |
+| travelRoomId | 커버 이미지를 변경할 여행방의 고유 아이디 |                                                              | 필수      |
+| format       | 업로드할 이미지의 형식.                   | [지원하는 이미지 형식](#이미지-형식) 중 하나를 전달해야한다. | 필수      |
 
 #### 응답 바디
 
-| 이름           | 타입   | 설명                                              | 제약 조건 | 필수 여부 |
-| -------------- | ------ | ------------------------------------------------- | --------- | --------- |
-|signedUrl|string | 여행방 커버 이미지를 전송하여 업로드 할 수 있는 url. | 만료기한이 존재 | 필수 |
-
+| 이름      | 타입   | 설명                                                 | 제약 조건       | 필수 여부 |
+| --------- | ------ | ---------------------------------------------------- | --------------- | --------- |
+| signedUrl | string | 여행방 커버 이미지를 전송하여 업로드 할 수 있는 url. | 만료기한이 존재 | 필수      |
 
 #### 응답 예시
 
 ```json
 {
-    "signedUrl": "https://travel-together2.s3.amazonaws.com/travel-room/cover-image/86ec949a-c1fb-4090-9ec9-c89853c7cf33.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5KWQOYF7SUMU33GN%2F20191229%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20191229T055140Z&X-Amz-Expires=300&X-Amz-Signature=6cb1b6d24809792d2e4783e3479072ca5f3978c50053ef00b05a2157421f55cb&X-Amz-SignedHeaders=host"
+  "signedUrl": "https://travel-together2.s3.amazonaws.com/travel-room/cover-image/86ec949a-c1fb-4090-9ec9-c89853c7cf33.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5KWQOYF7SUMU33GN%2F20191229%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20191229T055140Z&X-Amz-Expires=300&X-Amz-Signature=6cb1b6d24809792d2e4783e3479072ca5f3978c50053ef00b05a2157421f55cb&X-Amz-SignedHeaders=host"
 }
 ```
 
@@ -347,3 +347,12 @@ KR
 ### 국가 코드
 
 서버와 클라이언트 통신 과정에서 사용되는 모든 국가코드는 [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)에 명시되어있어야 한다.
+
+### 지원하는 이미지 형식
+
+- jpg
+- jpeg
+- gif
+- png
+- tiff
+- webp

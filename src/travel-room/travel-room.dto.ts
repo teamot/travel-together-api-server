@@ -7,6 +7,7 @@ import {
   // IsUUID
 } from 'class-validator';
 import { CountryCode } from '../country/interfaces/country.interfaces';
+import { ImageFormat } from '../common/format';
 
 export class CreateTravelRoomDto {
   @MaxLength(32, {
@@ -35,6 +36,13 @@ export class CreateTravelRoomDto {
 }
 
 export class GetTravelRoomCoverImageUploadUrlDto {
-  @IsUUID('4')
+  @IsUUID('4', {
+    message: '여행방 아이디가 유효하지 않습니다.'
+  })
   travelRoomId: string;
+
+  @IsEnum(ImageFormat, {
+    message: '이미지 형식이 올바르지 않습니다.'
+  })
+  format: ImageFormat;
 }

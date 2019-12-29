@@ -46,8 +46,8 @@ export class ObjectPathResolver {
 
   getTravelRoomCoverImagePath(
     travelRoomId: string,
-    ext: string = 'jpeg'
+    format: string = 'jpeg'
   ): string {
-    return `travel-room/cover-image/${travelRoomId}.${ext}`;
+    return `travel-room/cover-image/${travelRoomId}.${format}`;
   }
 }
