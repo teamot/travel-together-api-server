@@ -4,10 +4,11 @@ import { AccountModule } from '../account/account.module';
 import { TokenModule } from '../utils/token/token.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { AWSModule } from '../aws/aws.module';
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService],
-  imports: [OAuthModule, TokenModule, AccountModule]
+  imports: [OAuthModule, TokenModule, AccountModule, AWSModule]
 })
 export class AuthModule {}

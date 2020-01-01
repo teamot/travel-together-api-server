@@ -2,6 +2,7 @@ import { S3 } from 'aws-sdk';
 import { S3Config } from './interfaces/s3.interface';
 import { Injectable } from '@nestjs/common';
 import { ImageFormat } from '../../common/format';
+import http from 'http';
 
 @Injectable()
 export class S3Service {
@@ -39,6 +40,36 @@ export class S3Service {
       Expires: expiresIn,
       ContentType: 'image/jpeg'
     });
+  }
+
+  async uploadObjectFromUrl(url: string, path: string): Promise<string> {
+    const response = await new Promise<http.IncomingMessage>(
+      (resolve, reject) => {
+        http.get(url, resolve).on('error', reject);
+      }
+    );
+
+    if (!response.statusCode || response.statusCode >= 300) {
+      throw new Error(
+        `외부 url에서 데이터를 가져오는데 실패했습니다. 응답 상태 코드: ${response.statusCode}`
+      );
+    }
+
+    const result = await this.pipeResponseToObject(response, path);
+    return result.Key;
+  }
+
+  private pipeResponseToObject(
+    response: http.IncomingMessage,
+    path: string
+  ): Promise<S3.ManagedUpload.SendData> {
+    return this.s3
+      .upload({
+        Bucket: this.config.bucketName,
+        Key: path,
+        Body: response
+      })
+      .promise();
   }
 }
 

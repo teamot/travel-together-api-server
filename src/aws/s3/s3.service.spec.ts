@@ -5,7 +5,6 @@ import { S3Service } from './s3.service';
 describe('S3 Service', () => {
   let s3Service: S3Service;
   beforeEach(async () => {
-    console.log(process.env.AWS_ACCESSKEY_ID);
     const module = await Test.createTestingModule({
       providers: [S3Service]
     }).compile();
@@ -53,6 +52,25 @@ describe('S3 Service', () => {
       const signedUrl = await s3Service.getSignedUrl(key);
       expect(S3.prototype.getSignedUrlPromise).toBeCalledTimes(1);
       expect(signedUrl).toBe('signedUrl');
+    });
+  });
+
+  describe('uploadObjectFromUrl', () => {
+    it('올바른 url을 전달하면 저장 path를 반환한다', async () => {
+      const url = 'http://www.google.com/favicon.ico';
+      const path = 'test/test.jpeg';
+      const result = await s3Service.uploadObjectFromUrl(url, path);
+
+      expect(result).toBe(path);
+    });
+
+    it('존재하지 않는 url이 전달될 경우 예외를 던진다', async () => {
+      expect(
+        s3Service.uploadObjectFromUrl(
+          'https://invalid.url.invalid-urlinvalid-urlinvalid-urlinvalid-urlinvalid-urlinvalid-url.com',
+          'file/path'
+        )
+      ).rejects.toThrow();
     });
   });
 

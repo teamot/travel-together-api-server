@@ -7,6 +7,8 @@ import { Connection } from 'typeorm';
 import { RefreshTokenGenerator } from '../utils/token/refresh-token';
 import { JwtHelper } from '../utils/token/jwt';
 import { IJwtEncodeReturn } from '../utils/token/interfaces/jwt.interface';
+import { S3Service } from '../aws/s3/s3.service';
+import { ImageFormat } from '../common/format';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +18,8 @@ export class AuthService {
     private readonly kakaoApi: KakaoApi,
     private readonly refreshTokenGenerator: RefreshTokenGenerator,
     private readonly jwtHelper: JwtHelper,
-    private readonly connection: Connection
+    private readonly connection: Connection,
+    private readonly s3Service: S3Service
   ) {}
 
   async getTokensByOAuth(
@@ -33,19 +36,49 @@ export class AuthService {
       where: { oauthId },
       select: ['id', 'refreshToken']
     });
+
     if (!account) {
       const newAccount = this.connection.getRepository(Account).create();
+
       newAccount.name = user.kakao_account.profile.nickname;
       newAccount.oauthId = user.id + '';
-      newAccount.profileImagePath =
-        user.kakao_account.profile.profile_image_url;
       newAccount.refreshToken = this.refreshTokenGenerator.generate();
       account = await newAccount.save();
+
+      const profileImageSrcUrl = user.kakao_account.profile.profile_image_url;
+      if (profileImageSrcUrl) {
+        const profileImagePath = this.s3Service.objectPathResolver.getProfileImagePath(
+          account.id,
+          ImageFormat.JPEG
+        );
+
+        account.profileImagePath = profileImagePath;
+        await Promise.all([
+          this.s3Service.uploadObjectFromUrl(
+            profileImageSrcUrl,
+            profileImagePath
+          ),
+          account.save()
+        ]);
+      }
     }
 
     const encoded = await this.issueJwt(account);
 
     return { ...encoded, refreshToken: account.refreshToken };
+  }
+
+  async uploadProfileImageFromUrl(
+    accountId: string,
+    url: string,
+    format: ImageFormat
+  ): Promise<string> {
+    const profileImagePath = this.s3Service.objectPathResolver.getProfileImagePath(
+      accountId,
+      format
+    );
+
+    return this.s3Service.uploadObjectFromUrl(url, profileImagePath);
   }
 
   async refreshToken(refreshToken: string): Promise<ITokenData> {
