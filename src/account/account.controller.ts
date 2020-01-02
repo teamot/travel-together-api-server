@@ -47,10 +47,4 @@ export class MeController {
     });
     return { signedUrl };
   }
-
-  @Get('travel-rooms')
-  async getTravelRooms(@Body('accountId') accountId: string) {
-    const travelRooms = await this.accountService.getTravelRooms(accountId);
-    return travelRooms;
-  }
 }

@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { Account } from './entities/account.entity';
-import { TravelRoom } from '../travel-room/entities/travel-room.entity';
 import { omit } from 'lodash';
 import { S3Service } from '../aws/s3/s3.service';
 import { GetProfileImageUploadUrlDto, ModifyProfileDto } from './account.dto';
@@ -71,22 +70,5 @@ export class AccountService {
 
     const [signedUrl] = await Promise.all(promises);
     return signedUrl;
-  }
-
-  async getTravelRooms(accountId: string): Promise<TravelRoom[]> {
-    const travelRoomIds = (
-      await this.connection.getRepository(Account).findOne({
-        where: { id: accountId },
-        relations: ['joinedTravelRooms']
-      })
-    )?.joinedTravelRooms.map(travelRoom => travelRoom.id);
-
-    if (!travelRoomIds) {
-      return [];
-    }
-
-    return this.connection.getRepository(TravelRoom).findByIds(travelRoomIds, {
-      relations: ['members', 'countries']
-    });
   }
 }

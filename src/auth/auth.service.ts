@@ -12,7 +12,7 @@ import { ImageFormat } from '../common/format';
 
 @Injectable()
 export class AuthService {
-  readonly expIn: number = 15 * 60; // in seconds
+  readonly expIn: number = 7 * 24 * 60 * 60; // in seconds
 
   constructor(
     private readonly kakaoApi: KakaoApi,
