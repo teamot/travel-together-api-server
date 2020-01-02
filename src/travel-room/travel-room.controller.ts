@@ -6,7 +6,9 @@ import {
   Get,
   Patch,
   Param,
-  Query
+  Query,
+  HttpCode,
+  HttpStatus
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 import {
@@ -47,6 +49,7 @@ export class TravelRoomController {
     await this.travelRoomService.modifyTravelRoom(dto.accountId, id, dto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('/:id/leave')
   @UseGuards(AuthGuard)
   async leaveTravelRoom(

@@ -3,11 +3,12 @@ import {
   IsEnum,
   IsOptional,
   IsDateString,
-  IsUUID
-  // IsUUID
+  IsUUID,
+  IsArray
 } from 'class-validator';
 import { CountryCode } from '../country/interfaces/country.interfaces';
 import { ImageFormat } from '../common/format';
+import { Optional } from '@nestjs/common';
 
 export class CreateTravelRoomDto {
   @MaxLength(32, {
@@ -27,6 +28,7 @@ export class CreateTravelRoomDto {
   })
   endDate?: Date;
 
+  @IsArray()
   @IsEnum(CountryCode, {
     each: true
   })
@@ -36,6 +38,7 @@ export class CreateTravelRoomDto {
 }
 
 export class PatchTravelRoomDto {
+  @IsOptional()
   @MaxLength(32, {
     message: '여행 이름은 최대 32글자까지만 가능합니다.'
   })
@@ -53,6 +56,8 @@ export class PatchTravelRoomDto {
   })
   endDate?: Date;
 
+  @Optional()
+  @IsArray()
   @IsEnum(CountryCode, {
     each: true
   })
