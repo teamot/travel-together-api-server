@@ -6,10 +6,12 @@ import {
   Index,
   CreateDateColumn,
   ManyToMany,
-  JoinTable
+  JoinTable,
+  ManyToOne
 } from 'typeorm';
 import { Account } from '../../account/entities/account.entity';
 import { Country } from '../../country/entities/country.entity';
+import { BaseSchedule } from '../schedule/entities/base-schedule.entity';
 
 @Entity()
 export class TravelRoom extends BaseEntity {
@@ -19,10 +21,10 @@ export class TravelRoom extends BaseEntity {
   @Column({ length: 64 })
   name: string;
 
-  @Column('timestamp with time zone', { nullable: true })
+  @Column('timestamp with time zone')
   startDate: Date;
 
-  @Column('timestamp with time zone', { nullable: true })
+  @Column('timestamp with time zone')
   endDate: Date;
 
   @Column({ nullable: true })

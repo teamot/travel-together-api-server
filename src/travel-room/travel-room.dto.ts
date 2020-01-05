@@ -16,17 +16,15 @@ export class CreateTravelRoomDto {
   })
   name: string;
 
-  @IsOptional()
   @IsDateString({
     message: '날짜 형식이 올바르지 않습니다.'
   })
-  startDate?: Date;
+  startDate: Date;
 
-  @IsOptional()
   @IsDateString({
     message: '날짜 형식이 올바르지 않습니다.'
   })
-  endDate?: Date;
+  endDate: Date;
 
   @IsArray()
   @IsEnum(CountryCode, {
