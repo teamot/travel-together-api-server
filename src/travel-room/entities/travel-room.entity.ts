@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   ManyToMany,
   JoinTable,
-  ManyToOne
+  OneToMany
 } from 'typeorm';
 import { Account } from '../../account/entities/account.entity';
 import { Country } from '../../country/entities/country.entity';
@@ -43,6 +43,12 @@ export class TravelRoom extends BaseEntity {
   )
   @JoinTable({ name: 'travel_room_to_country' })
   countries: Country[];
+
+  @OneToMany(
+    _type => BaseSchedule,
+    schedule => schedule.travelRoom
+  )
+  schedules: BaseSchedule[];
 
   @CreateDateColumn()
   @Index()
