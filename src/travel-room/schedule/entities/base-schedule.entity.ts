@@ -6,11 +6,15 @@ import {
   Entity
 } from 'typeorm';
 import { TravelRoom } from '../../entities/travel-room.entity';
+import { ScheduleType } from '../schedule.enum';
 
 @Entity()
 export class BaseSchedule extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column()
+  type: ScheduleType;
 
   @Column({ length: 64 })
   name: string;
