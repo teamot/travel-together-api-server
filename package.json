@@ -29,7 +29,7 @@
       "request": "^2.88.0",
       "request-promise": "^4.2.5",
       "rxjs": "^6.5.3",
-      "typeorm": "^0.2.21",
+      "typeorm": "^0.2.25",
       "uuid": "^3.3.3"
    },
    "devDependencies": {
